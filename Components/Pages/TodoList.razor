@@ -1,0 +1,62 @@
+﻿@page "/todolist"
+@rendermode InteractiveServer
+
+<div class="text-center">
+
+<h3>TodoList</h3>
+
+<input 
+	type="text" 
+	class="form-control form-control-lg"
+	@bind="sNewTodoItem"/> @*Whatever we stored on the command is also stored in the variable*@
+	<div class="d-grid gap-2">
+		<button class="btn btn-primary pulse"
+				@onclick="addItem">
+			Add
+		</button>
+	</div>
+
+
+	<hr/>
+
+<ol
+	class="list-group">
+	@*lista ordenada*@
+	@foreach(string sTodoItem in todoList)
+	{
+		<li
+			class="list-group-item flex-column ">@sTodoItem 
+				<button
+					class="btn btn-danger btn-sm float-end"
+					@onclick="(() => deleteTodoItem(sTodoItem))">
+					<span class="oi oi-delete"></span>
+
+				</button>
+		</li>
+	}
+</ol>
+</div>
+
+@code {
+
+	List<string> todoList = new() { "primer valor","segundo valor" };
+	string sNewTodoItem = "";
+	void addItem()
+	{
+		if (!string.IsNullOrWhiteSpace(sNewTodoItem))
+		{
+			todoList.Add(sNewTodoItem);
+			sNewTodoItem = "";
+		}
+
+	}
+
+	void deleteTodoItem(string sItemToDelete)
+	{
+		if (todoList.Contains(sItemToDelete))
+		{
+			todoList.Remove(sItemToDelete);
+		}
+	}
+
+}
